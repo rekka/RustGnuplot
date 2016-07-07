@@ -41,6 +41,32 @@ impl Axes3D
 		self
 	}
 
+	/// Draws a 3D surface from a rectangular array of data by connecting the individual datapoints with polygons and lines.
+    ///
+    /// In contrast to the `surface`, it does not use the heat map to color the surface.
+	///
+	/// #Arguments:
+	/// * `mat` - Row-major 2D array signifying the Z coordinate of the datapoints. The X and Y coordinates of the datapoints are determined automatically,
+	///           and optionally scaled using the `dimensions` argument.
+	/// * `num_rows` - Number of rows in the data array
+	/// * `num_cols` - Number of columns in the data array
+	/// * `dimensions` - Optional X and Y coordinates of the first and last data points (with the rest of the coordinates spaced evenly between).
+	///                  By default this will be `(0, 0)` and `(num_rows - 1, num_cols - 1)`.
+	/// * `options` - Array of PlotOption controlling the appearance of the surface. Relevant options are:
+	///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).
+	pub fn surface_lines<'l, T: DataType, X: IntoIterator<Item = T>>(&'l mut self, mat: X, num_rows: usize, num_cols: usize, dimensions: Option<(f64, f64, f64, f64)>, options: &[PlotOption]) -> &'l mut Axes3D
+	{
+		self.common.plot_matrix(Lines, true, mat, num_rows, num_cols, dimensions, options);
+		self
+	}
+
+	/// Sets the surface plot to hide parts not directly visible.
+	pub fn set_hidden<'l>(&'l mut self) -> &'l mut Axes3D
+	{
+		writeln!(&mut self.common.commands, "set hidden3d");
+		self
+	}
+
 	/// Sets the 3D view.
 	///
 	/// #Arguments:
