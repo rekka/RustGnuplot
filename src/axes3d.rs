@@ -67,6 +67,15 @@ impl Axes3D
 		self
 	}
 
+	/// Unsets the surface -- does not draw lines nor points associated with it.
+    ///
+    /// Useful for drawing contours.
+	pub fn unset_surface<'l>(&'l mut self) -> &'l mut Axes3D
+	{
+		writeln!(&mut self.common.commands, "unset surface");
+		self
+	}
+
 	/// Sets the 3D view.
 	///
 	/// #Arguments:
